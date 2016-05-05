@@ -208,6 +208,25 @@ float randColour() {
 	return (double)rand() / (RAND_MAX + 1.0f);
 }
 
+void twoUniqueRand()
+{
+	//<type of randColour> colour = randColour();
+	
+	for (int i = 0; i < amount / 8; i++) {
+		float colour = randColour();
+		for (int j = 0; j < amount / 8; j++) {
+			
+			float colour = randColour();
+			boxes.push_back({ i*1.0f, 0.0f, j*1.0f, colour, colour,
+				colour });
+			//<type of randColour> colour = randColour();
+			boxes.push_back({ (i+1)*1.0f, 0.0f, (j+1)*1.0f, colour, colour,
+				colour });
+		}
+	}
+	
+}
+
 int main(int argc, char **argv) {
 
 	// init GLUT and create window
@@ -230,13 +249,14 @@ int main(int argc, char **argv) {
 
 	// OpenGL init
 	glEnable(GL_DEPTH_TEST);
-
+	twoUniqueRand();
+	/*
 	for (int i = 0; i < amount / 4; i++) {
 		for (int j = 0; j < amount / 4; j++) {
 			boxes.push_back({ i*1.0f, 0.0f, j*1.0f, randColour(), randColour(), randColour() });
 		}
 	}
-
+	*/
 	// enter GLUT event processing cycle
 	glutMainLoop();
 
