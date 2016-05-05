@@ -6,6 +6,8 @@
 #include <math.h>
 #include <cmath>
 #include <vector>
+#include <ctime>
+#include <algorithm>
 
 
 using namespace std;
@@ -181,21 +183,35 @@ void releaseKey(int key, int x, int y) {
 float randColour() {
 	return (double)rand() / (RAND_MAX+1.0);
 }
-
+void mycolourswapfunction()
+{
+	for (int s=0; s<boxes.size();s++)
+	{
+		std::swap(boxes.(1),boxes.(2));
+	}
+}
 void twoUniqueRand()
 {
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 6; j++) {
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 6; j++)
+		{
 			float r = randColour();
 			float g = randColour();
 			float b = randColour();
-			
-			boxes.push_back({ (i*2)*1.0f, 0.0f, j*1.0f, r, g, b });
-			
-			boxes.push_back({ (i*2+1)*1.0f, 0.0f, j*1.0f, r, g, b });
-		}	
+
+			boxes.push_back({(i * 2) * 1.0f, 0.0f, j * 1.0f, r, g, b});
+
+			boxes.push_back({(i * 2 + 1) * 1.0f, 0.0f, j * 1.0f, r, g, b});
+		}
+	}
+	for (int bi = 0; bi < boxes.size(); bi++)
+	{
+		mycolourswapfunction(boxes.at(bi), boxes.at(random() * boxes.size()));
 	}
 }
+
+
 
 int main(int argc, char **argv) {
 
@@ -220,7 +236,7 @@ int main(int argc, char **argv) {
 	// OpenGL init
 	glEnable(GL_DEPTH_TEST);
 	twoUniqueRand();
-	
+	//shuffleUniqueRand();
 	/*
 	for (int i = 0; i < amount / 4; i++) {
 		for (int j = 0; j < amount / 4; j++) {
@@ -233,3 +249,5 @@ int main(int argc, char **argv) {
 
 	return 1;
 }
+
+
