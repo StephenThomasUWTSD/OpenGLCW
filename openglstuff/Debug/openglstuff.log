@@ -1,30 +1,4 @@
 ﻿  main.cpp
-c:\users\macab\onedrive\documents\github\openglcw\openglstuff\main.cpp(205): error C2679: binary '=': no operator found which takes a right-hand operand of type 'const int' (or there is no acceptable conversion)
-  c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector(982): note: could be 'std::vector<Box,std::allocator<_Ty>> &std::vector<_Ty,std::allocator<_Ty>>::operator =(const std::vector<_Ty,std::allocator<_Ty>> &)'
-          with
-          [
-              _Ty=Box
-          ]
-  c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector(960): note: or       'std::vector<Box,std::allocator<_Ty>> &std::vector<_Ty,std::allocator<_Ty>>::operator =(std::initializer_list<Box>)'
-          with
-          [
-              _Ty=Box
-          ]
-  c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector(854): note: or       'std::vector<Box,std::allocator<_Ty>> &std::vector<_Ty,std::allocator<_Ty>>::operator =(std::vector<_Ty,std::allocator<_Ty>> &&) noexcept(<expr>)'
-          with
-          [
-              _Ty=Box
-          ]
-  c:\users\macab\onedrive\documents\github\openglcw\openglstuff\main.cpp(205): note: while trying to match the argument list '(std::vector<Box,std::allocator<_Ty>>, const int)'
-          with
-          [
-              _Ty=Box
-          ]
-c:\users\macab\onedrive\documents\github\openglcw\openglstuff\main.cpp(206): error C2678: binary '<': no operator found which takes a left-hand operand of type 'int' (or there is no acceptable conversion)
-  c:\program files (x86)\microsoft visual studio 14.0\vc\include\system_error(436): note: could be 'bool std::operator <(const std::error_condition &,const std::error_condition &) noexcept'
-  c:\program files (x86)\microsoft visual studio 14.0\vc\include\system_error(427): note: or       'bool std::operator <(const std::error_code &,const std::error_code &) noexcept'
-  c:\users\macab\onedrive\documents\github\openglcw\openglstuff\main.cpp(206): note: while trying to match the argument list '(int, std::vector<Box,std::allocator<_Ty>>)'
-          with
-          [
-              _Ty=Box
-          ]
+c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(203): warning C4018: '<': signed/unsigned mismatch
+c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(255): warning C4018: '<': signed/unsigned mismatch
+  openglstuff.vcxproj -> C:\Users\Stephen Thomas\Documents\GitHub\OpenGLCW\Debug\openglstuff.exe

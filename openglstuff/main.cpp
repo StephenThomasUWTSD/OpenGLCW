@@ -9,17 +9,25 @@
 #include <ctime>
 #include <algorithm>
 
+const int GRID_WIDTH = 6;
+const int GRID_HEIGHT = 6;
 
 using namespace std;
 
 const int amount = 32;
-
+bool tilesGenerated = false;
 struct Box {
 	GLfloat x, y, z;
 	GLfloat red, green, blue;
 };
 
 vector<Box> boxes;
+
+struct TilePositions {
+	int x, z;
+};
+
+vector<TilePositions> tilePositions;
 
 // angle of rotation for the camera direction
 float angle = 0.0f;
@@ -31,6 +39,8 @@ float x = 3.0f, z = 1.0f;
 //when no key is being presses
 float deltaAngle = 0.0f;
 float deltaMove = 0;
+
+void shuffleBoxes(void);
 
 void changeSize(int w, int h) {
 
@@ -64,7 +74,7 @@ void drawBox(float w, float h, float l)
 {
 	glPushMatrix();       //save modelview
 	w = w / 2.0; h = h / 2.0; l = l / 2.0; //adjust values so centre is in middle of box
-	//draw faces of box
+										   //draw faces of box
 	glBegin(GL_POLYGON);
 	glVertex3f(w, l, h);
 	glVertex3f(w, l, -h);
@@ -101,7 +111,7 @@ void drawBox(float w, float h, float l)
 	glVertex3f(-w, l, -h);
 	glVertex3f(w, l, -h);
 	glEnd();
-	glPopMatrix();   //restore previous modelview matrix so leaving things as you found them 
+	glPopMatrix();   //restore previous modelview matrix so leaving things as you found them
 }
 
 
@@ -136,18 +146,6 @@ void renderScene(void) {
 		x + lx, 3.0f, z + lz,
 		0.0f, 1.0f, 0.0f);
 
-	// Draw ground
-
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
-	glVertex3f(-100.0f, 0.0f, -100.0f);
-	glVertex3f(-100.0f, 0.0f, 100.0f);
-	glVertex3f(100.0f, 0.0f, 100.0f);
-	glVertex3f(100.0f, 0.0f, -100.0f);
-	glEnd();
-
-	// Draw 36 boxes
-
 	for (Box box : boxes) {
 		glPushMatrix();
 		glTranslatef(box.x, box.y, box.z);
@@ -167,6 +165,7 @@ void pressKey(int key, int xx, int yy) {
 	case GLUT_KEY_RIGHT: deltaAngle = 0.01f; break;
 	case GLUT_KEY_UP: deltaMove = 0.5f; break;
 	case GLUT_KEY_DOWN: deltaMove = -0.5f; break;
+	case GLUT_KEY_END: shuffleBoxes(); break;
 	}
 }
 
@@ -181,37 +180,84 @@ void releaseKey(int key, int x, int y) {
 }
 
 float randColour() {
-	return (double)rand() / (RAND_MAX+1.0);
+	return (double)rand() / (RAND_MAX + 1.0);
 }
-void mycolourswapfunction()
+
+void generateBoxes(int numBoxes = GRID_WIDTH * GRID_HEIGHT) 
 {
-	for (int s=0; s<boxes.size();s++)
+	for (int boxIndex = 0; boxIndex < numBoxes; boxIndex += 2) 
 	{
-		std::swap(boxes.(1),boxes.(2));
+		float r = randColour(), g = randColour(), b = randColour();
+		Box first = { 0,0,0,r,g,b };
+		Box second = { 0,0,0,r,g,b };
+
+		boxes.push_back(first);
+		boxes.push_back(second);
 	}
 }
-void twoUniqueRand()
+
+void initialBoxPositions(int width = GRID_WIDTH, int height = GRID_HEIGHT) 
 {
-	for (int i = 0; i < 3; i++)
+	int x = 0, z = 0;
+
+	for (int boxIndex = 0; boxIndex < boxes.size(); boxIndex++) 
 	{
-		for (int j = 0; j < 6; j++)
+		boxes[boxIndex].x = x;
+		boxes[boxIndex].y = 0;
+		boxes[boxIndex].z = z;
+
+		x++;
+		if (x >= width) 
 		{
-			float r = randColour();
-			float g = randColour();
-			float b = randColour();
-
-			boxes.push_back({(i * 2) * 1.0f, 0.0f, j * 1.0f, r, g, b});
-
-			boxes.push_back({(i * 2 + 1) * 1.0f, 0.0f, j * 1.0f, r, g, b});
+			x = 0;
+			z++;
 		}
 	}
-	for (int bi = 0; bi < boxes.size(); bi++)
+
+	// NOTE: foreach style like below does NOT work!
+	// The elements inside boxes do not get changed becase
+	// you are editing a copy of each box, not the actual
+	// box in the collection.
+	/*for (Box box : boxes) {
+	box.x = x;
+	box.y = 0;
+	box.z = z;
+
+	x++;
+	if (x > width) {
+	x = 0;
+	z++;
+	}
+	}*/
+}
+
+void generateTilePositions() 
+{
+	for (int x = 0; x < GRID_WIDTH; x++) 
 	{
-		mycolourswapfunction(boxes.at(bi), boxes.at(random() * boxes.size()));
+		for (int z = 0; z < GRID_HEIGHT; z++) 
+		{
+			tilePositions.push_back({ x, z });
+		}
 	}
 }
 
+void shuffleBoxes() 
+{
+	if (!tilesGenerated) 
+	{
+		tilesGenerated = true;
+		generateTilePositions();
+	}
 
+	random_shuffle(tilePositions.begin(), tilePositions.end());
+
+	for (int boxIndex = 0; boxIndex < boxes.size(); boxIndex++) 
+	{
+		boxes[boxIndex].x = tilePositions[boxIndex].x;
+		boxes[boxIndex].z = tilePositions[boxIndex].z;
+	}
+}
 
 int main(int argc, char **argv) {
 
@@ -235,19 +281,12 @@ int main(int argc, char **argv) {
 
 	// OpenGL init
 	glEnable(GL_DEPTH_TEST);
-	twoUniqueRand();
-	//shuffleUniqueRand();
-	/*
-	for (int i = 0; i < amount / 4; i++) {
-		for (int j = 0; j < amount / 4; j++) {
-			boxes.push_back({ i*1.0f, 0.0f, j*1.0f, randColour(), randColour(), randColour() });
-		}
-	}
-	*/
+
+	generateBoxes();
+	initialBoxPositions();
+	shuffleBoxes();
 	// enter GLUT event processing cycle
 	glutMainLoop();
 
 	return 1;
 }
-
-
