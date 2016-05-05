@@ -184,19 +184,17 @@ float randColour() {
 
 void twoUniqueRand()
 {
-	for (int i = 0; i < amount / 6; i++) {
-		
-		for (int j = 0; (j < amount / 6) +1; j++) {
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 6; j++) {
 			float r = randColour();
 			float g = randColour();
 			float b = randColour();
 			
-			boxes.push_back({ i*1.0f, 0.0f, j*1.0f, r, g, b });
+			boxes.push_back({ (i*2)*1.0f, 0.0f, j*1.0f, r, g, b });
 			
-			boxes.push_back({ (i+1)*1.0f, 0.0f, (j+1)*1.0f, r, g, b });
-		}
+			boxes.push_back({ (i*2+1)*1.0f, 0.0f, j*1.0f, r, g, b });
+		}	
 	}
-	
 }
 
 int main(int argc, char **argv) {
