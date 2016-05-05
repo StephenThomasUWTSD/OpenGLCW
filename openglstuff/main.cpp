@@ -102,33 +102,7 @@ void drawBox(float w, float h, float l)
 	glPopMatrix();   //restore previous modelview matrix so leaving things as you found them 
 }
 
-void drawSnowMan() {
 
-	glColor3f(1.0f, 1.0f, 1.0f);
-
-	// Draw Body
-
-	glTranslatef(0.0f, 0.75f, 0.0f);
-	glutSolidSphere(0.75f, 20, 20);
-
-	// Draw Head
-	glTranslatef(0.0f, 1.0f, 0.0f);
-	glutSolidSphere(0.25f, 20, 20);
-
-	// Draw Eyes
-	glPushMatrix();
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glTranslatef(0.05f, 0.10f, 0.18f);
-	glutSolidSphere(0.05f, 10, 10);
-	glTranslatef(-0.1f, 0.0f, 0.0f);
-	glutSolidSphere(0.05f, 10, 10);
-	glPopMatrix();
-
-	// Draw Nose
-	glColor3f(1.0f, 0.5f, 0.5f);
-	glRotatef(0.0f, 1.0f, 0.0f, 0.0f);
-	glutSolidCone(0.08f, 0.5f, 10, 2);
-}
 
 void computePos(float deltaMove) {
 
@@ -170,7 +144,7 @@ void renderScene(void) {
 	glVertex3f(100.0f, 0.0f, -100.0f);
 	glEnd();
 
-	// Draw 36 SnowMen
+	// Draw 36 boxes
 
 	for (Box box : boxes) {
 		glPushMatrix();
@@ -210,18 +184,16 @@ float randColour() {
 
 void twoUniqueRand()
 {
-	for (int i = 0; i < amount / 8; i++) {
+	for (int i = 0; i < amount / 6; i++) {
 		
-		for (int j = 0; j < amount / 8; j++) {
+		for (int j = 0; (j < amount / 6) +1; j++) {
 			float r = randColour();
 			float g = randColour();
 			float b = randColour();
 			
-			boxes.push_back({ i*1.0f, 0.0f, j*1.0f, r, g,
-				b });
+			boxes.push_back({ i*1.0f, 0.0f, j*1.0f, r, g, b });
 			
-			boxes.push_back({ (i+1)*1.0f, 0.0f, (j+1)*1.0f, r, g,
-				b });
+			boxes.push_back({ (i+1)*1.0f, 0.0f, (j+1)*1.0f, r, g, b });
 		}
 	}
 	
