@@ -8,12 +8,16 @@
 #include <vector>
 #include <ctime>
 #include <algorithm>
-
+#include "vector.h"
+#include "MatchGame.h"
+/*
 const int GRID_WIDTH = 6;
 const int GRID_HEIGHT = 6;
 
 using namespace std;
-
+double WorldT[16];
+double objectNear[4];
+double objectFar[4];
 const int amount = 32;
 bool tilesGenerated = false;
 struct Box {
@@ -41,6 +45,7 @@ float deltaAngle = 0.0f;
 float deltaMove = 0;
 
 void shuffleBoxes(void);
+
 
 void changeSize(int w, int h) {
 
@@ -169,9 +174,11 @@ void pressKey(int key, int xx, int yy) {
 	}
 }
 
-void releaseKey(int key, int x, int y) {
+void releaseKey(int key, int x, int y) 
+{
 
-	switch (key) {
+	switch (key) 
+	{
 	case GLUT_KEY_LEFT:
 	case GLUT_KEY_RIGHT: deltaAngle = 0.0f; break;
 	case GLUT_KEY_UP:
@@ -179,7 +186,8 @@ void releaseKey(int key, int x, int y) {
 	}
 }
 
-float randColour() {
+float randColour() 
+{
 	return (double)rand() / (RAND_MAX + 1.0);
 }
 
@@ -228,7 +236,7 @@ void initialBoxPositions(int width = GRID_WIDTH, int height = GRID_HEIGHT)
 	x = 0;
 	z++;
 	}
-	}*/
+	}*//*
 }
 
 void generateTilePositions() 
@@ -258,7 +266,7 @@ void shuffleBoxes()
 		boxes[boxIndex].z = tilePositions[boxIndex].z;
 	}
 }
-
+*/
 int main(int argc, char **argv) {
 
 	// init GLUT and create window
@@ -290,3 +298,61 @@ int main(int argc, char **argv) {
 
 	return 1;
 }
+
+/*
+House::House() : position(0, 0, 0), BVposition(0, 0, 0) {
+intersect = false;
+BoundSphereRadius = 1.0;
+BVposition.x = position.x + 0.5;
+BVposition.y = position.y - 0.25;
+BVposition.z = position.z - 0.5;
+}
+bool House::isBoundSphereIntersect(Ray v) {
+//calc collision
+cout << "line point distance squared is: " << v.LinePointDistanceSqd(BVposition) << "\n";
+
+
+if (v.LinePointDistanceSqd(BVposition)>(BoundSphereRadius*BoundSphereRadius))
+return false; //no intersection detected
+else true;//intersection detected
+}
+*/
+
+/*
+void rayCastMouse(int button, int state, int x, int y)
+{
+if (state == GLUT_DOWN) {
+int view[4];
+//   double modelview[16];
+double proj[16];
+glGetIntegerv(GL_VIEWPORT, view);
+glGetDoublev(GL_PROJECTION_MATRIX, proj);
+int realy = view[3] - (GLint)y - 1;
+int check = gluUnProject(x, realy, -1, WorldT, proj, view, objectNear, objectNear + 1, objectNear + 2);
+cout << "unprojected near co-ords are ";
+for (int i = 0; i<4; i++) {
+cout << objectNear[i] << " ";
+} cout << "\n";
+check = gluUnProject(x, realy, 1, WorldT, proj, view, objectFar, objectFar + 1, objectFar + 2);
+cout << "unprojected far co-ords are ";
+for (int i = 0; i<4; i++) {
+cout << objectFar[i] << " ";
+} cout << "\n";
+//prepare for collision test by making a ray
+Vector d(objectFar[0], objectFar[1], objectFar[2]);
+Vector p(objectNear[0], objectNear[1], objectNear[2]);
+Ray ray1;  //this is the ray cast
+ray1.SetOrigin(p);      //initialise ray with origin and direction vector
+ray1.SetDirection(d - p);
+if (boxes.isBoundSphereIntersect(ray1))
+cout << "hit" << endl;
+else
+cout << "miss" << endl;
+
+
+glutPostRedisplay();
+
+}
+
+}
+*/
