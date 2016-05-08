@@ -1,4 +1,6 @@
-﻿  main.cpp
-c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(257): warning C4018: '<': signed/unsigned mismatch
-c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(309): warning C4018: '<': signed/unsigned mismatch
-  openglstuff.vcxproj -> C:\Users\Stephen Thomas\Documents\GitHub\OpenGLCW\Debug\openglstuff.exe
+﻿  Vector.cpp
+  PairsGame.cpp
+  main.cpp
+  Box.cpp
+  Generating Code...
+  openglstuff.vcxproj -> C:\Users\Stephen Thomas\Documents\GitHub\OpenGLCW_monkey\Debug\openglstuff.exe
