@@ -9,8 +9,8 @@
 #include <ctime>
 #include <algorithm>
 #include "vector.h"
-#include "MatchGame.h"
-/*
+//#include "MatchGame.h"
+
 const int GRID_WIDTH = 6;
 const int GRID_HEIGHT = 6;
 
@@ -39,6 +39,11 @@ float angle = 0.0f;
 float lx = 0.0f, lz = -1.0f;
 // XZ position of the camera
 float x = 3.0f, z = 1.0f;
+
+bool movingUp = false; // Whether or not we are moving up or down  
+float yLocation = 0.0f; // Keep track of our position on the y axis.  
+
+float yRotationAngle = 0.0f; // The angle of rotation for our object  
 // the key states. These variables will be zero
 //when no key is being presses
 float deltaAngle = 0.0f;
@@ -46,7 +51,35 @@ float deltaMove = 0;
 
 void shuffleBoxes(void);
 
+void rotateTiles()
+{
+	/*
+	yRotationAngle += 0.005f; // Increment our rotation value  
+	if (yRotationAngle > 360.0f) // If we have rotated beyond 360 degrees (a full rotation)  
+		yRotationAngle -= 360.0f; // Subtract 360 degrees off of our rotation 
+		*/
+	yRotationAngle += 0.005f; // Increment our rotation value  
+	if (yRotationAngle > 360.0f) // If we have rotated beyond 360 degrees (a full rotation)
+		yRotationAngle -= 360.0f; // Subtract 360 degrees off of our rotation
+	glRotatef(yRotationAngle, 0.0f, 0.0f, 1.0f); // Rotate our object around the y axis 
 
+}
+
+void bounce()
+{
+	if (movingUp) // If we are moving up  
+		yLocation -= 0.005f; // Move up along our yLocation  
+	else  // Otherwise  
+		yLocation += 0.005f; // Move down along our yLocation  
+
+	if (yLocation < -3.0f) // If we have gone up too far  
+		movingUp = false; // Reverse our direction so we are moving down  
+	else if (yLocation > 3.0f) // Else if we have gone down too far  
+		movingUp = true; // Reverse our direction so we are moving up  
+	glTranslatef(0.0f, yLocation, 0.0f); // Translate our object along the y axis  
+
+	
+}
 void changeSize(int w, int h) {
 
 	// Prevent a divide by zero, when window is too short
@@ -135,7 +168,7 @@ void computeDir(float deltaAngle) {
 }
 
 void renderScene(void) {
-
+	
 	if (deltaMove)
 		computePos(deltaMove);
 	if (deltaAngle)
@@ -154,11 +187,18 @@ void renderScene(void) {
 	for (Box box : boxes) {
 		glPushMatrix();
 		glTranslatef(box.x, box.y, box.z);
+		
+		//rotateTiles();
+		
+		//glRotatef(yRotationAngle, 0.0f, 0.0f, 1.0f); // Rotate our object around the y axis 
+
 		glColor3f(box.red, box.green, box.blue);
 		drawBox(1, 1, 1);
 		glPopMatrix();
 	}
-
+	
+	//glTranslatef(0.0f, yLocation, 0.0f); // Translate our object along the y axis 
+	
 	glutSwapBuffers();
 }
 
@@ -170,7 +210,8 @@ void pressKey(int key, int xx, int yy) {
 	case GLUT_KEY_RIGHT: deltaAngle = 0.01f; break;
 	case GLUT_KEY_UP: deltaMove = 0.5f; break;
 	case GLUT_KEY_DOWN: deltaMove = -0.5f; break;
-	case GLUT_KEY_END: shuffleBoxes(); break;
+	case GLUT_KEY_END: yRotationAngle = 0.5; shuffleBoxes();  break;
+	
 	}
 }
 
@@ -183,6 +224,7 @@ void releaseKey(int key, int x, int y)
 	case GLUT_KEY_RIGHT: deltaAngle = 0.0f; break;
 	case GLUT_KEY_UP:
 	case GLUT_KEY_DOWN: deltaMove = 0; break;
+	case GLUT_KEY_END:yRotationAngle = 0;  break;
 	}
 }
 
@@ -236,7 +278,7 @@ void initialBoxPositions(int width = GRID_WIDTH, int height = GRID_HEIGHT)
 	x = 0;
 	z++;
 	}
-	}*//*
+	}*/
 }
 
 void generateTilePositions() 
@@ -265,16 +307,17 @@ void shuffleBoxes()
 		boxes[boxIndex].x = tilePositions[boxIndex].x;
 		boxes[boxIndex].z = tilePositions[boxIndex].z;
 	}
-}
-*/
-int main(int argc, char **argv) {
 
+}
+
+int main(int argc, char **argv) {
+	
 	// init GLUT and create window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(800, 600);
-	glutCreateWindow("Lighthouse3D - GLUT Tutorial");
+	glutCreateWindow("Match Game: Tile Madness!");
 
 	// register callbacks
 	glutDisplayFunc(renderScene);
@@ -293,6 +336,7 @@ int main(int argc, char **argv) {
 	generateBoxes();
 	initialBoxPositions();
 	shuffleBoxes();
+	
 	// enter GLUT event processing cycle
 	glutMainLoop();
 

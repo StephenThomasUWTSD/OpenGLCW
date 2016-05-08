@@ -1,9 +1,4 @@
 ﻿  main.cpp
-c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(280): error C2065: 'renderScene': undeclared identifier
-c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(281): error C2065: 'changeSize': undeclared identifier
-c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(282): error C2065: 'renderScene': undeclared identifier
-c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(284): error C2065: 'pressKey': undeclared identifier
-c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(288): error C2065: 'releaseKey': undeclared identifier
-c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(293): error C3861: 'generateBoxes': identifier not found
-c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(294): error C3861: 'initialBoxPositions': identifier not found
-c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(295): error C3861: 'shuffleBoxes': identifier not found
+c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(257): warning C4018: '<': signed/unsigned mismatch
+c:\users\stephen thomas\documents\github\openglcw\openglstuff\main.cpp(309): warning C4018: '<': signed/unsigned mismatch
+  openglstuff.vcxproj -> C:\Users\Stephen Thomas\Documents\GitHub\OpenGLCW\Debug\openglstuff.exe
